@@ -5,33 +5,40 @@
 <div class="listaUsuario">
   <ul>
     @for (usuario of usuarios; track $index) {
-      <li>
+      <li [ngClass]="{'usuario-selecionado': usuario.mostrar}">
         {{usuario.nome}}
         <button (click)="usuario.mostrar = !usuario.mostrar">
           {{ usuario.mostrar ? 'Ocultar detalhes' : 'Mostrar detalhes' }}
         </button>
-        <div *ngIf="usuario.mostrar">
-          Idade: {{usuario.idade}}<br>
-          Profissão: {{usuario.profissao}}<br>
-          Email: {{usuario.email}}<br>
-          Status: 
-          <span [ngStyle]="{'color': usuario.status ? 'green' : 'red'}">
-            {{usuario.status ? 'Ativo' : 'Inativo'}}
-          </span>
-        </div>
+        @if (usuario.mostrar) {
+          <div>
+            Idade: {{usuario.idade}}<br>
+            Profissão: {{usuario.profissao}}<br>
+            Email: {{usuario.email}}<br>
+            Status: 
+            <span [ngStyle]="{'color': usuario.status ? 'green' : 'red'}">
+              {{usuario.status ? 'Ativo' : 'Inativo'}}
+            </span>
+            <button (click)="usuario.status = !usuario.status">
+              Trocar Status
+            </button>
+          </div>
+        }
       </li>
     }
   </ul>
 </div>
 
-<input [(ngModel)]="nome" placeholder="Nome">
-<input [(ngModel)]="idade" placeholder="idade">
-<input [(ngModel)]="profissao" placeholder="Profissão">
-<input [(ngModel)]="email" placeholder="Email">
-<select [(ngModel)]="status">
-  <option [ngValue]="true">Ativo</option>
-  <option [ngValue]="false">Inativo</option>
-</select>
-<button (click)="addUsuario()">Adicionar</button>
+<div class="form-usuario">
+  <input [(ngModel)]="nome" placeholder="Nome">
+  <input [(ngModel)]="idade" placeholder="idade">
+  <input [(ngModel)]="profissao" placeholder="Profissão">
+  <input [(ngModel)]="email" placeholder="Email">
+  <select [(ngModel)]="status">
+    <option [ngValue]="true">Ativo</option>
+    <option [ngValue]="false">Inativo</option>
+  </select>
+  <button (click)="addUsuario()">Adicionar</button>
+</div>
 
 <router-outlet />
